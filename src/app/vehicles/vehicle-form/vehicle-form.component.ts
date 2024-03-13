@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IVehicle } from '../models/vehicle.model';
@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class VehiclesFormComponent {
+export class VehiclesFormComponent implements OnInit {
 
     formVehicle = new FormGroup({
         plate: new FormControl('', [
@@ -39,6 +39,12 @@ export class VehiclesFormComponent {
         private dialogRef: MatDialogRef<VehiclesFormComponent>,
         private matSnackbar: MatSnackBar
     ) { }
+
+    ngOnInit() {
+        if (this.data) {
+            this.formVehicle.setValue(this.data);
+        }
+    }
 
     submitForm() {
         this.formVehicle.markAllAsTouched();
