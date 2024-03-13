@@ -14,6 +14,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { VehiclesComponent } from './vehicles.component';
 import { VehiclesFormComponent } from './vehicle-form/vehicle-form.component';
+import { RemoveVehicleDialogComponent } from './remove-vehicle-dialog/remove-vehicle-dialog.component';
 
 
 const routes: Routes = [
@@ -40,7 +41,8 @@ const materialImports = [
 @NgModule({
   declarations: [
     VehiclesComponent,
-    VehiclesFormComponent
+    VehiclesFormComponent,
+    RemoveVehicleDialogComponent
   ],
   imports: [
     ...angularImports,

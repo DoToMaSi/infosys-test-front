@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { VehiclesFormComponent } from './vehicle-form/vehicle-form.component';
 import { IVehicle } from './models/vehicle.model';
+import { RemoveVehicleDialogComponent } from './remove-vehicle-dialog/remove-vehicle-dialog.component';
 
 @Component({
   selector: 'app-vehicles',
@@ -57,6 +58,18 @@ export class VehiclesComponent {
   }
 
   removeVehicle(vehicle: IVehicle, index: number) {
-    console.log(vehicle, index);
+    const dialog = this.matDialog.open(RemoveVehicleDialogComponent, {
+      maxWidth: '90vw',
+      width: '600px',
+      maxHeight: '90vh',
+      data: vehicle
+    });
+
+    dialog.afterClosed().subscribe((value: boolean) => {
+      if (value) {
+        this.dataSource.data.splice(index, 1);
+        this.vehicleTable.renderRows();
+      }
+    });
   }
 }

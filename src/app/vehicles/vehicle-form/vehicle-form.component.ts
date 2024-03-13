@@ -50,6 +50,10 @@ export class VehiclesFormComponent implements OnInit {
         this.formVehicle.markAllAsTouched();
         if (this.formVehicle.valid) {
             const vehicle = this.formVehicle.value as IVehicle;
+            const successMsg = this.data ? 'Veículo Editado com sucesso' : 'Veículo Cadastrado com Sucesso';
+            this.matSnackbar.open(successMsg, 'OK', {
+                duration: 2000
+            });
             this.dialogRef.close(vehicle);
             return true;
         } else {

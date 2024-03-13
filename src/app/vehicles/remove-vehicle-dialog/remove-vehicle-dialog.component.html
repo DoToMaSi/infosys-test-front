@@ -1,0 +1,17 @@
+<mat-toolbar>
+  <label>Remover Veículo?</label>
+</mat-toolbar>
+
+<div *ngIf="data" class="content">
+  <p>Deseja remover o veículo <b>{{ data.brand }} {{ data.model }}</b> da placa <b>{{ data.plate }}</b>? Essa ação não
+    poderá ser
+    desfeita posteriomente!</p>
+</div>
+
+<mat-toolbar class="sys-bottom-row">
+  <button tabindex="-1" type="button" mat-button mat-flat-button (click)="closeModal()">Cancelar</button>
+  <button mat-button mat-flat-button type="submit" color="warn" (click)="closeModal(true)">
+    Remover
+    <i class="fa-solid fa-trash"></i>
+  </button>
+</mat-toolbar>
