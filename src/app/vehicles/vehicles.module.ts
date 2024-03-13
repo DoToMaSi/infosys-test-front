@@ -6,6 +6,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+import { VehiclesFormComponent } from './vehicle-form/vehicle-form.component';
 
 const routes: Routes = [
   { path: '', component: VehiclesComponent }
@@ -20,12 +22,14 @@ const materialImports = [
   MatToolbarModule,
   MatTableModule,
   MatButtonModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatDialogModule
 ];
 
 @NgModule({
   declarations: [
-    VehiclesComponent
+    VehiclesComponent,
+    VehiclesFormComponent
   ],
   imports: [
     ...angularImports,
