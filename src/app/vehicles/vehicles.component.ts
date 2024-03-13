@@ -1,8 +1,9 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { VehiclesFormComponent } from './vehicle-form/vehicle-form.component';
+import { IVehicle } from './models/vehicle.model';
 
 @Component({
   selector: 'app-vehicles',
@@ -11,32 +12,51 @@ import { VehiclesFormComponent } from './vehicle-form/vehicle-form.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class VehiclesComponent implements AfterViewInit {
+export class VehiclesComponent {
 
+  @ViewChild('vehicleTable') vehicleTable: MatTable<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  columnsToDisplay = ['plate', 'brand', 'model', 'year', 'color'];
-  columnsName = ['Placa', 'Marca', 'Modelo', 'Ano', 'Color'];
-  dataSource = new MatTableDataSource([]);
+  columnsToDisplay = ['actions', 'plate', 'brand', 'model', 'year', 'color', 'chassis'];
+  columnsName = ['Ações', 'Placa', 'Marca', 'Modelo', 'Ano', 'Color', 'Nº Chassi'];
+  dataSource = new MatTableDataSource<IVehicle>([]);
 
   constructor(private matDialog: MatDialog) { }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
 
   createVehicle() {
     const dialog = this.matDialog.open(VehiclesFormComponent, {
       maxWidth: '90vw',
-      width: '800px'
+      width: '800px',
+      maxHeight: '90vh',
+      disableClose: true,
+      autoFocus: false,
     });
 
-    dialog.afterClosed().subscribe((value) => {
-      console.log(value);
+    dialog.afterClosed().subscribe((value: IVehicle | null) => {
+      if (value) {
+        this.dataSource.data.push(value);
+        this.vehicleTable.renderRows();
+      }
     });
   }
 
-  editVehicle() { }
+  editVehicle(vehicle: IVehicle, index: number) {
+    const dialog = this.matDialog.open(VehiclesFormComponent, {
+      maxWidth: '90vw',
+      width: '800px',
+      maxHeight: '90vh',
+      data: vehicle
+    });
 
-  removeVehicle() { }
+    dialog.afterClosed().subscribe((value: IVehicle | null) => {
+      if (value) {
+        this.dataSource.data[index] = value;
+        this.vehicleTable.renderRows();
+      }
+    });
+  }
+
+  removeVehicle(vehicle: IVehicle, index: number) {
+    console.log(vehicle, index);
+  }
 }

@@ -1,1 +1,66 @@
-<p>vehicle-form</p>
+<mat-toolbar>
+  <label>{{ data ? 'Editar Veículo' : 'Cadastrar Veículo' }}</label>
+</mat-toolbar>
+<form [formGroup]="formVehicle" (ngSubmit)="submitForm()">
+  <div class="content">
+
+    <div class="row">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Placa</mat-label>
+          <input matInput type="text" maxlength="10" formControlName="plate" required />
+          <mat-error *ngIf="formVehicle.get('plate')?.errors?.['required']">O campo Placa é obrigatório</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Marca</mat-label>
+          <input matInput type="text" maxlength="30" formControlName="brand" required />
+          <mat-error *ngIf="formVehicle.get('brand')?.errors?.['required']">O campo Marca é obrigatório</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-5">
+        <mat-form-field appearance="outline">
+          <mat-label>Modelo</mat-label>
+          <input matInput type="text" maxlength="50" formControlName="model" required />
+          <mat-error *ngIf="formVehicle.get('model')?.errors?.['required']">O campo Modelo é obrigatório</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Ano</mat-label>
+          <input matInput type="number" maxlength="4" formControlName="year" required />
+          <mat-error *ngIf="formVehicle.get('year')?.errors?.['required']">O campo Ano é obrigatório</mat-error>
+          <mat-error *ngIf="formVehicle.get('year')?.errors?.['min']">O campo Ano deve ser maior que 1900</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Cor</mat-label>
+          <input matInput type="text" maxlength="16" formControlName="color" required />
+          <mat-error *ngIf="formVehicle.get('color')?.errors?.['required']">O campo Cor é obrigatório</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-5">
+        <mat-form-field appearance="outline">
+          <mat-label>Nº Chassi</mat-label>
+          <input matInput type="text" maxlength="17" formControlName="chassis" />
+        </mat-form-field>
+      </div>
+    </div>
+
+  </div>
+
+  <mat-toolbar class="sys-bottom-row">
+    <button tabindex="-1" type="button" mat-button mat-flat-button (click)="closeModal(null)">Cancelar</button>
+    <button mat-button mat-flat-button type="submit" color="primary">
+      Salvar
+      <i class="fa-solid fa-save"></i>
+    </button>
+  </mat-toolbar>
+</form>

@@ -2,14 +2,35 @@
   display: block;
 }
 
-.vehicle-list {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+$table-accent-color: var(--mat-table-row-item-outline-color);
+
+.vehicle {
+  &-table {
+    .mat-mdc-row {
+      &:hover {
+        background-color: #f5f5f5;
+      }
+    }
+
+    .mat-column-actions {
+      max-width: 120px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-right: 1px solid var(--mat-table-row-item-outline-color);
+    }
+
+    // .mat-column-plate {}
+  }
+
+  &-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 
-.vehicle-form {
-  max-width: 90vw;
-  width: 400px;
+mat-paginator {
+  border-top: 1px solid var(--mat-table-row-item-outline-color);
 }

@@ -10,6 +10,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+mat-form-field {
+  width: 100%;
+}
+
 .content {
   padding: 16px;
 }
@@ -27,5 +31,12 @@ body {
       align-items: baseline;
       gap: 8px;
     }
+  }
+
+  &-bottom-row {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
   }
 }
