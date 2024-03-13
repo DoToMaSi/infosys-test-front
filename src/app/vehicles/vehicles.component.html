@@ -1,0 +1,30 @@
+<mat-toolbar color="primary">
+  <label>Veículos</label>
+</mat-toolbar>
+
+<div class="content">
+  <div class="row">
+    <div class="col">
+      <button mat-button mat-flat-button class="sys-button" color="primary">
+        <i class="fa-solid fa-plus"></i>
+        <label>Cadastrar Veículo</label>
+      </button>
+    </div>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" aria-describedby="vehicle-table">
+    <ng-container *ngFor="let col of columnsToDisplay" [matColumnDef]="col">
+      <th mat-header-cell *matHeaderCellDef>{{ col }}</th>
+      <td mat-cell *matCellDef="let car">{{car?.plate}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell empty-row" [colSpan]="columnsToDisplay.length">
+        Não há veículos cadastrados.
+      </td>
+    </tr>
+  </table>
+</div>

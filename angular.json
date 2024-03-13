@@ -30,12 +30,19 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
             "scripts": []
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environtment.ts",
+                  "with": "src/environments/environtment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -48,6 +55,12 @@
                   "maximumError": "4kb"
                 }
               ],
+              "buildOptimizer": true,
+              "optimization": true,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
               "outputHashing": "all"
             },
             "development": {
@@ -56,7 +69,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environtment.ts",
+                  "with": "src/environments/environtment.dev.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -93,6 +112,7 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -100,5 +120,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "61dc76d8-40d6-49b6-b6b2-6ef68463f852"
   }
 }
