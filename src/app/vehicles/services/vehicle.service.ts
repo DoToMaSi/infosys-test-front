@@ -19,7 +19,6 @@ export class VehicleService {
   }
 
   editVehicle(vehicle: IVehicle) {
-    console.log(vehicle.index);
     return this.http.put(`${this.environment.endpoint}/vehicles/${vehicle.index.toString()}`, vehicle);
   }
 
