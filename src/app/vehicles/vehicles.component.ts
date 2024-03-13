@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -8,9 +9,15 @@ import { MatTableDataSource } from '@angular/material/table';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class VehiclesComponent {
+export class VehiclesComponent implements AfterViewInit {
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   columnsToDisplay = ['plate', 'brand', 'model', 'year', 'color'];
+  columnsName = ['Placa', 'Marca', 'Modelo', 'Ano', 'Color'];
   dataSource = new MatTableDataSource([]);
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
 }

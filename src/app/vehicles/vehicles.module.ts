@@ -5,6 +5,7 @@ import { VehiclesComponent } from './vehicles.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 const routes: Routes = [
   { path: '', component: VehiclesComponent }
@@ -18,7 +19,8 @@ const angularImports = [
 const materialImports = [
   MatToolbarModule,
   MatTableModule,
-  MatButtonModule
+  MatButtonModule,
+  MatPaginatorModule
 ];
 
 @NgModule({
