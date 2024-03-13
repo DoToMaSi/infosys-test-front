@@ -1,4 +1,5 @@
 export interface IVehicle {
+  index?: number;
   plate: string;
   brand: string;
   model: string;

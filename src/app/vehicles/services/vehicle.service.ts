@@ -19,7 +19,8 @@ export class VehicleService {
   }
 
   editVehicle(vehicle: IVehicle) {
-    return this.http.put(`${this.environment.endpoint}/vehicles`, vehicle);
+    console.log(vehicle.index);
+    return this.http.put(`${this.environment.endpoint}/vehicles/${vehicle.index.toString()}`, vehicle);
   }
 
   removeVehicle(index: number) {

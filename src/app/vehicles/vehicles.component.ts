@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, ViewChild, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -6,7 +6,8 @@ import { VehiclesFormComponent } from './vehicle-form/vehicle-form.component';
 import { IVehicle } from './models/vehicle.model';
 import { RemoveVehicleDialogComponent } from './remove-vehicle-dialog/remove-vehicle-dialog.component';
 import { VehicleService } from './services/vehicle.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, debounce, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-vehicles',
@@ -15,14 +16,16 @@ import { Subject, takeUntil } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class VehiclesComponent implements AfterViewInit {
+export class VehiclesComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('vehicleTable') vehicleTable: MatTable<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  columnsToDisplay = ['actions', 'plate', 'brand', 'model', 'year', 'color', 'chassis'];
-  columnsName = ['Ações', 'Placa', 'Marca', 'Modelo', 'Ano', 'Color', 'Nº Chassi'];
+  columnsToDisplay = ['actions', 'plate', 'brand', 'model', 'year', 'color', 'chassis', 'createdOn', 'lastUpdated'];
+  columnsName = ['Ações', 'Placa', 'Marca', 'Modelo', 'Ano', 'Color', 'Nº Chassi', 'Criado em', 'Ultima Atualização'];
   dataSource = new MatTableDataSource<IVehicle>([]);
+
+  search = new FormControl('')
 
   request$ = new Subject();
 
@@ -33,6 +36,16 @@ export class VehiclesComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.getVehicles();
+    this.search.valueChanges
+      .pipe(distinctUntilChanged(), takeUntil(this.request$), debounceTime(600))
+      .subscribe((val) => {
+        this.dataSource.filter = val;
+      })
+  }
+
+  ngOnDestroy() {
+    this.request$.next(true);
+    this.request$.complete();
   }
 
   getVehicles() {
@@ -54,13 +67,14 @@ export class VehiclesComponent implements AfterViewInit {
 
     dialog.afterClosed().subscribe((value: IVehicle | null) => {
       if (value) {
-        // this.dataSource.data.push(value);
+        this.getVehicles();
         this.vehicleTable.renderRows();
       }
     });
   }
 
   editVehicle(vehicle: IVehicle, index: number) {
+    vehicle.index = index;
     const dialog = this.matDialog.open(VehiclesFormComponent, {
       maxWidth: '90vw',
       width: '800px',
@@ -70,13 +84,14 @@ export class VehiclesComponent implements AfterViewInit {
 
     dialog.afterClosed().subscribe((value: IVehicle | null) => {
       if (value) {
-        // this.dataSource.data[index] = value;
+        this.getVehicles();
         this.vehicleTable.renderRows();
       }
     });
   }
 
   removeVehicle(vehicle: IVehicle, index: number) {
+    vehicle.index = index;
     const dialog = this.matDialog.open(RemoveVehicleDialogComponent, {
       maxWidth: '90vw',
       width: '600px',
@@ -86,7 +101,7 @@ export class VehiclesComponent implements AfterViewInit {
 
     dialog.afterClosed().subscribe((value: boolean) => {
       if (value) {
-        // this.dataSource.data.splice(index, 1);
+        this.getVehicles();
         this.vehicleTable.renderRows();
       }
     });

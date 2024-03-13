@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IVehicle } from '../models/vehicle.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { VehicleService } from '../services/vehicle.service';
+import { take } from 'rxjs';
 
 @Component({
     selector: 'app-vehicle-form',
@@ -37,12 +39,13 @@ export class VehiclesFormComponent implements OnInit {
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: IVehicle,
         private dialogRef: MatDialogRef<VehiclesFormComponent>,
-        private matSnackbar: MatSnackBar
+        private matSnackbar: MatSnackBar,
+        private vehicleService: VehicleService
     ) { }
 
     ngOnInit() {
         if (this.data) {
-            this.formVehicle.setValue(this.data);
+            this.formVehicle.patchValue(this.data);
         }
     }
 
@@ -50,17 +53,33 @@ export class VehiclesFormComponent implements OnInit {
         this.formVehicle.markAllAsTouched();
         if (this.formVehicle.valid) {
             const vehicle = this.formVehicle.value as IVehicle;
-            const successMsg = this.data ? 'Veículo Editado com sucesso' : 'Veículo Cadastrado com Sucesso';
-            this.matSnackbar.open(successMsg, 'OK', {
-                duration: 2000
-            });
-            this.dialogRef.close(vehicle);
-            return true;
+
+            if (this.data) {
+                vehicle.index = this.data.index;
+                vehicle.createdOn = this.data.createdOn;
+            }
+
+            const request = this.data ? this.vehicleService.editVehicle(vehicle) : this.vehicleService.createVehicle(vehicle)
+
+            request.pipe(take(1)).subscribe({
+                next: (value) => {
+                    const successMsg = this.data ? 'Veículo Editado com sucesso' : 'Veículo Cadastrado com Sucesso';
+                    this.matSnackbar.open(successMsg, 'OK', {
+                        duration: 2000
+                    });
+                    this.closeModal(vehicle);
+                }, error: (error) => {
+                    console.error(error);
+                    this.matSnackbar.open('ERRO: Erro ao salvar os dados do veículo', 'OK', {
+                        duration: 2000
+                    });
+                }
+            })
+
         } else {
             this.matSnackbar.open('O formulário contém dados inválidos ou campos obrigatórios não preenchidos', 'OK', {
                 duration: 4000
             });
-            return false;
         }
     }
 

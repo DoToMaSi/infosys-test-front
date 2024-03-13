@@ -10,6 +10,16 @@
         <label>Cadastrar Veículo</label>
       </button>
     </div>
+
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <mat-form-field>
+        <mat-label>
+          <i class="fa-solid fa-search"></i>
+          Pesquisar...
+        </mat-label>
+        <input matInput type="text" [formControl]="search" />
+      </mat-form-field>
+    </div>
   </div>
 
   <div class="row">
@@ -19,17 +29,21 @@
           <ng-container *ngFor="let col of columnsToDisplay; let i = index" [matColumnDef]="col">
             <ng-container *ngIf="col !== 'actions'; else actionsCol">
               <mat-header-cell *matHeaderCellDef>{{ columnsName[i] }}</mat-header-cell>
-              <mat-cell *matCellDef="let car">{{car?.[col]}}</mat-cell>
+              <mat-cell *matCellDef="let car">
+                {{
+                (col === 'createdOn' || col === 'lastUpdated')? (car?.[col] | date: 'dd/MM/yyyy HH:mm:ss') :
+                car?.[col]}}
+              </mat-cell>
             </ng-container>
 
             <ng-template #actionsCol>
               <mat-header-cell *matHeaderCellDef>{{ columnsName[0] }}</mat-header-cell>
-              <mat-cell *matCellDef="let car">
-                <button (click)="editVehicle(car, i)" mat-icon-button color="accent">
+              <mat-cell *matCellDef="let car; let icar = index">
+                <button (click)="editVehicle(car, icar)" mat-icon-button color="accent">
                   <i class="fa-solid fa-edit"></i>
                 </button>
 
-                <button (click)="removeVehicle(car, i)" mat-icon-button color="warn">
+                <button (click)="removeVehicle(car, icar)" mat-icon-button color="warn">
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </mat-cell>
