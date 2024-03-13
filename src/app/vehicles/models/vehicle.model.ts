@@ -5,4 +5,6 @@ export interface IVehicle {
   year: number;
   color: string;
   chassis: string;
+  createdOn?: string;
+  lastUpdated?: string;
 }

@@ -5,6 +5,8 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { VehiclesFormComponent } from './vehicle-form/vehicle-form.component';
 import { IVehicle } from './models/vehicle.model';
 import { RemoveVehicleDialogComponent } from './remove-vehicle-dialog/remove-vehicle-dialog.component';
+import { VehicleService } from './services/vehicle.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-vehicles',
@@ -13,7 +15,7 @@ import { RemoveVehicleDialogComponent } from './remove-vehicle-dialog/remove-veh
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class VehiclesComponent {
+export class VehiclesComponent implements AfterViewInit {
 
   @ViewChild('vehicleTable') vehicleTable: MatTable<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -22,7 +24,24 @@ export class VehiclesComponent {
   columnsName = ['Ações', 'Placa', 'Marca', 'Modelo', 'Ano', 'Color', 'Nº Chassi'];
   dataSource = new MatTableDataSource<IVehicle>([]);
 
-  constructor(private matDialog: MatDialog) { }
+  request$ = new Subject();
+
+  constructor(
+    private matDialog: MatDialog,
+    private vehicleService: VehicleService
+  ) { }
+
+  ngAfterViewInit(): void {
+    this.getVehicles();
+  }
+
+  getVehicles() {
+    this.vehicleService.getVehicles().pipe(takeUntil(this.request$))
+      .subscribe((value) => {
+        this.dataSource.data = value;
+        this.vehicleTable.renderRows();
+      })
+  }
 
   createVehicle() {
     const dialog = this.matDialog.open(VehiclesFormComponent, {
@@ -35,7 +54,7 @@ export class VehiclesComponent {
 
     dialog.afterClosed().subscribe((value: IVehicle | null) => {
       if (value) {
-        this.dataSource.data.push(value);
+        // this.dataSource.data.push(value);
         this.vehicleTable.renderRows();
       }
     });
@@ -51,7 +70,7 @@ export class VehiclesComponent {
 
     dialog.afterClosed().subscribe((value: IVehicle | null) => {
       if (value) {
-        this.dataSource.data[index] = value;
+        // this.dataSource.data[index] = value;
         this.vehicleTable.renderRows();
       }
     });
@@ -67,7 +86,7 @@ export class VehiclesComponent {
 
     dialog.afterClosed().subscribe((value: boolean) => {
       if (value) {
-        this.dataSource.data.splice(index, 1);
+        // this.dataSource.data.splice(index, 1);
         this.vehicleTable.renderRows();
       }
     });

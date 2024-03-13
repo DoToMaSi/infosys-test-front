@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
@@ -15,6 +16,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { VehiclesComponent } from './vehicles.component';
 import { VehiclesFormComponent } from './vehicle-form/vehicle-form.component';
 import { RemoveVehicleDialogComponent } from './remove-vehicle-dialog/remove-vehicle-dialog.component';
+import { VehicleService } from './services/vehicle.service';
 
 
 const routes: Routes = [
@@ -24,6 +26,7 @@ const routes: Routes = [
 const angularImports = [
   CommonModule,
   ReactiveFormsModule,
+  HttpClientModule,
   RouterModule.forChild(routes)
 ];
 
@@ -48,6 +51,9 @@ const materialImports = [
     ...angularImports,
     ...materialImports,
     RouterModule.forChild(routes)
+  ],
+  providers: [
+    VehicleService
   ]
 })
 
