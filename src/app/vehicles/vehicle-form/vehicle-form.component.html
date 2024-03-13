@@ -40,16 +40,18 @@
 
       <div class="col-12 col-sm-6 col-md-4 col-lg-4">
         <mat-form-field appearance="outline">
-          <mat-label>Cor</mat-label>
-          <input matInput type="text" maxlength="16" formControlName="color" required />
-          <mat-error *ngIf="formVehicle.get('color')?.errors?.['required']">O campo Cor é obrigatório</mat-error>
+          <mat-label>Nº Chassi</mat-label>
+          <input matInput type="text" maxlength="16" formControlName="chassis" required />
+          <mat-error *ngIf="formVehicle.get('chassis')?.errors?.['required']">O campo Nº Chassi é
+            obrigatório</mat-error>
         </mat-form-field>
       </div>
 
       <div class="col-12 col-sm-6 col-md-4 col-lg-5">
         <mat-form-field appearance="outline">
-          <mat-label>Nº Chassi</mat-label>
-          <input matInput type="text" maxlength="17" formControlName="chassis" />
+          <mat-label>RENAVAM</mat-label>
+          <input matInput type="text" maxlength="17" formControlName="renavam" />
+          <mat-error *ngIf="formVehicle.get('renavam')?.errors?.['required']">O campo RENAVAM é obrigatório</mat-error>
         </mat-form-field>
       </div>
     </div>

@@ -21,8 +21,8 @@ export class VehiclesComponent implements AfterViewInit, OnDestroy {
   @ViewChild('vehicleTable') vehicleTable: MatTable<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  columnsToDisplay = ['actions', 'plate', 'brand', 'model', 'year', 'color', 'chassis', 'createdOn', 'lastUpdated'];
-  columnsName = ['Ações', 'Placa', 'Marca', 'Modelo', 'Ano', 'Color', 'Nº Chassi', 'Criado em', 'Ultima Atualização'];
+  columnsToDisplay = ['actions', 'plate', 'brand', 'model', 'year', 'chassis', 'renavam', 'createdOn', 'lastUpdated'];
+  columnsName = ['Ações', 'Placa', 'Marca', 'Modelo', 'Ano', 'Nº Chassi', 'RENAVAM', 'Criado em', 'Ultima Atualização'];
   dataSource = new MatTableDataSource<IVehicle>([]);
 
   search = new FormControl('')

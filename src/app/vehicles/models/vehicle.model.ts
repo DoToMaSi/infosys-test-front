@@ -4,8 +4,8 @@ export interface IVehicle {
   brand: string;
   model: string;
   year: number;
-  color: string;
   chassis: string;
+  renavam: string;
   createdOn?: string;
   lastUpdated?: string;
 }

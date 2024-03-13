@@ -20,6 +20,14 @@ $table-accent-color: var(--mat-table-row-item-outline-color);
       border-right: 1px solid var(--mat-table-row-item-outline-color);
     }
 
+    .mat-column-plate {
+      max-width: 100px;
+    }
+
+    .mat-column-year {
+      max-width: 60px;
+    }
+
     // .mat-column-plate {}
   }
 
