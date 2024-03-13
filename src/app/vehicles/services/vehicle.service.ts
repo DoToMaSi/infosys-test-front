@@ -14,6 +14,10 @@ export class VehicleService {
     return this.http.get<IVehicle[]>(`${this.environment.endpoint}/vehicles`);
   }
 
+  getVehicleById(index: number) {
+    return this.http.get<IVehicle>(`${this.environment.endpoint}/vehicles/${index}`);
+  }
+
   createVehicle(vehicle: IVehicle) {
     return this.http.post(`${this.environment.endpoint}/vehicles`, vehicle);
   }

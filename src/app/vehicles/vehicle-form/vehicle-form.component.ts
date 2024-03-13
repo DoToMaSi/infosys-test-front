@@ -47,7 +47,19 @@ export class VehiclesFormComponent implements OnInit {
 
   ngOnInit() {
     if (this.data) {
-      this.formVehicle.patchValue(this.data);
+      this.vehicleService.getVehicleById(this.data.index).pipe(take(1))
+        .subscribe({
+          next: (vehicle: IVehicle) => {
+            this.data = vehicle;
+            this.formVehicle.patchValue(vehicle);
+          },
+          error: (error) => {
+            this.matSnackbar.open('ERRO: Erro ao buscar os dados do veículo', 'OK', {
+              duration: 2000
+            });
+            this.closeModal(null);
+          }
+        })
     }
   }
 
