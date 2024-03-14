@@ -18,19 +18,27 @@ import { VehiclesFormComponent } from './vehicle-form/vehicle-form.component';
 import { RemoveVehicleDialogComponent } from './remove-vehicle-dialog/remove-vehicle-dialog.component';
 import { VehicleService } from './services/vehicle.service';
 
-
 const routes: Routes = [
   { path: '', component: VehiclesComponent }
 ]
 
-const angularImports = [
-  CommonModule,
-  ReactiveFormsModule,
-  HttpClientModule,
-  RouterModule.forChild(routes)
+export const declarations = [
+  VehiclesComponent,
+  VehiclesFormComponent,
+  RemoveVehicleDialogComponent
 ];
 
-const materialImports = [
+export const providers = [
+  VehicleService
+];
+
+export const angularImports = [
+  CommonModule,
+  ReactiveFormsModule,
+  HttpClientModule
+];
+
+export const materialImports = [
   MatToolbarModule,
   MatTableModule,
   MatButtonModule,
@@ -43,9 +51,7 @@ const materialImports = [
 
 @NgModule({
   declarations: [
-    VehiclesComponent,
-    VehiclesFormComponent,
-    RemoveVehicleDialogComponent
+    ...declarations
   ],
   imports: [
     ...angularImports,
@@ -53,7 +59,7 @@ const materialImports = [
     RouterModule.forChild(routes)
   ],
   providers: [
-    VehicleService
+    ...providers
   ]
 })
 
