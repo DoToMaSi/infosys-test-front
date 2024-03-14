@@ -4,10 +4,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { VehiclesComponent } from './vehicles.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VehicleService } from './services/vehicle.service';
-import { MatDialogConfig } from '@angular/material/dialog';
-import { VehiclesFormComponent } from './vehicle-form/vehicle-form.component';
 import { CARS } from './mocks/vehicles.mock';
-import { FormControl } from '@angular/forms';
+import { of } from 'rxjs';
 
 describe('VehiclesComponent', () => {
   let component: VehiclesComponent;
@@ -76,32 +74,45 @@ describe('VehiclesComponent', () => {
     it('should call getVehicles', () => {
       const vehicleService = TestBed.inject(VehicleService);
       const spy = spyOn(component, 'getVehicles').and.callThrough();
-      const spyVehicles = spyOn(vehicleService, 'getVehicles').and.callThrough();
+      const spyVehicles = spyOn(vehicleService, 'getVehicles').and.returnValue(of(CARS));
+
       component.getVehicles();
+
+      expect(component.dataSource.data.length).toEqual(2);
       expect(spy).toHaveBeenCalled();
       expect(spyVehicles).toHaveBeenCalled();
     });
 
     it('should call createVehicle', () => {
       const spy = spyOn(component, 'createVehicle').and.callThrough();
+      const spyDialog = spyOn(component.matDialog, 'open').and.callThrough();
+
       component.createVehicle();
+
       expect(spy).toHaveBeenCalled();
+      expect(spyDialog).toHaveBeenCalled();
     });
 
     it('should call editVehicle', () => {
       const spy = spyOn(component, 'editVehicle').and.callThrough();
+      const spyDialog = spyOn(component.matDialog, 'open').and.callThrough();
       const carMock = CARS[0];
 
       component.editVehicle(carMock, 0);
+
       expect(spy).toHaveBeenCalled();
+      expect(spyDialog).toHaveBeenCalled();
     });
 
-    it('should call editVehicle', () => {
+    it('should call removeVehicle', () => {
       const spy = spyOn(component, 'removeVehicle').and.callThrough();
+      const spyDialog = spyOn(component.matDialog, 'open').and.callThrough();
+
       const carMock = CARS[0];
 
       component.removeVehicle(carMock, 0);
       expect(spy).toHaveBeenCalled();
+      expect(spyDialog).toHaveBeenCalled();
     });
   })
 })
