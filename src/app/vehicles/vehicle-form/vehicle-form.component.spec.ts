@@ -73,6 +73,19 @@ describe('VehiclesFormComponent', () => {
       expect(spy).toHaveBeenCalled();
     });
 
+    it('should call submitForm with a an empty data', () => {
+      const vehicleService = TestBed.inject(VehicleService);
+      const spy = spyOn(component, 'submitForm').and.callThrough();
+      const spyRequest = spyOn(vehicleService, 'createVehicle').and.returnValue(of(CARS[0]));
+
+      component.data = null;
+      component.formVehicle.patchValue(CARS[0]);
+      component.submitForm();
+
+      expect(spy).toHaveBeenCalled();
+      expect(spyRequest).toHaveBeenCalled();
+    });
+
     it('should call submitForm with a different data', () => {
       const vehicleService = TestBed.inject(VehicleService);
       const spy = spyOn(component, 'submitForm').and.callThrough();
@@ -81,6 +94,7 @@ describe('VehiclesFormComponent', () => {
       component.data = CARS[0];
       component.formVehicle.patchValue(CARS[0]);
       component.submitForm();
+
       expect(spy).toHaveBeenCalled();
       expect(spyRequest).toHaveBeenCalled();
     });
