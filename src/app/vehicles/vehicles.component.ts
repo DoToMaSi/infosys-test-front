@@ -30,7 +30,7 @@ export class VehiclesComponent implements AfterViewInit, OnDestroy {
   request$ = new Subject();
 
   constructor(
-    private matDialog: MatDialog,
+    public matDialog: MatDialog,
     private vehicleService: VehicleService
   ) { }
 
@@ -57,15 +57,13 @@ export class VehiclesComponent implements AfterViewInit, OnDestroy {
   }
 
   createVehicle() {
-    const dialog = this.matDialog.open(VehiclesFormComponent, {
+    this.matDialog.open(VehiclesFormComponent, {
       maxWidth: '90vw',
       width: '800px',
       maxHeight: '90vh',
       disableClose: true,
       autoFocus: false,
-    });
-
-    dialog.afterClosed().subscribe((value: IVehicle | null) => {
+    }).afterClosed().subscribe((value: IVehicle | null) => {
       if (value) {
         this.getVehicles();
         this.vehicleTable.renderRows();
