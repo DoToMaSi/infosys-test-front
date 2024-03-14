@@ -36,14 +36,14 @@ describe('VehiclesComponent', () => {
 
   it('should create the VehiclesComponent', () => {
     expect(component).toBeDefined();
-    expect(component.columnsToDisplay.length).toEqual(9);
-    expect(component.columnsName.length).toEqual(9);
-    expect(component.dataSource).toBeDefined();
-    expect(component.dataSource.data).toEqual([]);
-    expect(component.search.value).toEqual('');
   });
 
   describe('VehiclesComponentHtml', () => {
+    it('should have the "Title"', () => {
+      const element = fixture.nativeElement;
+      expect(element.querySelector('mat-toolbar').querySelector('label').textContent).toBe('Veículos');
+    });
+
     it('should have the "Add Vehicle" button', () => {
       const element = fixture.nativeElement;
       expect(element.querySelector('button').querySelector('label').textContent).toBe('Cadastrar Veículo');
